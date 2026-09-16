@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בדיקת fetch</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: #1b1f32;
+    color: #fafafa;
+    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 24px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  button {
+    padding: 14px 32px;
+    border-radius: 12px;
+    background: #2d2f36;
+    color: #fafafa;
+    font-size: 16px;
+    font-weight: 600;
+    border: 1px solid #4a4c54;
+  }
+  button:active {
+    background: #3d3f46;
+  }
+  #result {
+    max-width: 320px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+</style>
+</head>
+<body>
+  <button id="runBtn" type="button">בדיקת פנייה לצ'אט</button>
+  <div id="result"></div>
+  <script>
+    var EXEC_URL = 'https://script.google.com/macros/s/AKfycbzr4rtsAi21peqUdFo4zspMM080UJonYACzoqEx8ElEVI-8O7BSHA8bFoi_-WcmRyI1/exec';
+    document.getElementById('runBtn').addEventListener('click', function () {
+      var out = document.getElementById('result');
+      out.textContent = 'שולח...';
+      fetch(EXEC_URL)
+        .then(function (res) {
+          return res.text().then(function (body) {
+            out.textContent = 'הצליח\nstatus: ' + res.status + '\nbytes: ' + body.length;
+          });
+        })
+        .catch(function (err) {
+          out.textContent = 'נכשל\n' + (err && err.message ? err.message : String(err));
+        });
+    });
+  </script>
+</body>
+</html>
